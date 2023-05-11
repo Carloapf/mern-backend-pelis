@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 
 const reviewSchema = new Schema({
     movie: {
-      type: Schema.Types.ObjectId,
+      type: String,
       ref: 'Movie',
       required: true
     },

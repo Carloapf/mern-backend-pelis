@@ -71,8 +71,6 @@ router.put('/:imdbid/rating', async (req, res) => {
     }
 
     const reviews = await Review.find({ 'movie.imdbid': imdbid });
-    //const reviews = await Review.find({ movie: { imdbid: imdbid } });
-    //const reviews = await Review.find({ movie: imdbid });
     const ratings = reviews.map(review => review.rating);
     const total = ratings.reduce((sum, rating) => sum + rating, 0);
     const averageRating = total / ratings.length;
