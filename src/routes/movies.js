@@ -34,13 +34,26 @@ router.post('/', async (req, res) => {
 });
 
 // Obtiene información de una película existente
-router.get('/:movieId', async (req, res) => {
+router.get('/:imdbid', async (req, res) => {
   try {
-    const movieId = req.params.movieId;
-    const movie = await Movie.findById(movieId);
+    const imdbid = req.params.imdbid;
+    const movie = await Movie.findOne({ imdbid: imdbid });
     if (!movie) {
       return res.status(404).json({ error: 'Película no encontrada' });
     }
+
+    // Obtiene todas las reseñas de la película
+    const reviews = await Review.aggregate([
+      { $match: { movie: movie._id } },
+      { $group: { _id: '$movie', avgRating: { $avg: '$rating' } } }
+    ]);
+
+    // Actualiza el rating de la película con el promedio de las reseñas
+    if (reviews.length > 0) {
+      movie.rating = reviews[0].avgRating;
+      await movie.save();
+    }
+
     res.json(movie);
   } catch (error) {
     console.error(error);
@@ -49,15 +62,17 @@ router.get('/:movieId', async (req, res) => {
 });
 
 // Actualiza la calificación promedio de una película
-router.put('/:movieId/rating', async (req, res) => {
+router.put('/:imdbid/rating', async (req, res) => {
   try {
-    const movieId = req.params.movieId;
-    const movie = await Movie.findById(movieId);
+    const imdbid = req.params.imdbid;
+    const movie = await Movie.findOne({ imdbid: imdbid });
     if (!movie) {
       return res.status(404).json({ error: 'Película no encontrada' });
     }
 
-    const reviews = await Review.find({ movie: movieId });
+    const reviews = await Review.find({ 'movie.imdbid': imdbid });
+    //const reviews = await Review.find({ movie: { imdbid: imdbid } });
+    //const reviews = await Review.find({ movie: imdbid });
     const ratings = reviews.map(review => review.rating);
     const total = ratings.reduce((sum, rating) => sum + rating, 0);
     const averageRating = total / ratings.length;
