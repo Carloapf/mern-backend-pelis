@@ -22,7 +22,7 @@ const connection = mongoose.connection;
 connection.once('open', async () => {
     console.log('La base de datos está conectada');
     // Insertar películas en la base de datos
- /* for (const movieData of moviesData) {
+  for (const movieData of moviesData) {
     const movie = new Movie({
       imdbid: movieData.imdbid,
       title: movieData.title,
@@ -31,7 +31,7 @@ connection.once('open', async () => {
     });
     await movie.save();
     console.log(`Película "${movie.title}" insertada en la base de datos`);
-  }*/
+  }
     // Consultar películas en la base de datos
     /*const movies = await Movie.find();
     console.log('Películas en la base de datos:', movies);*/
