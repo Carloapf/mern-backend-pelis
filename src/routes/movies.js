@@ -70,7 +70,7 @@ router.put('/:imdbid/rating', async (req, res) => {
       return res.status(404).json({ error: 'Película no encontrada' });
     }
 
-    const reviews = await Review.find({ 'movie.imdbid': imdbid });
+    const reviews = await Review.find({ movie: movie._id });
     const ratings = reviews.map(review => review.rating);
     const total = ratings.reduce((sum, rating) => sum + rating, 0);
     const averageRating = total / ratings.length;

@@ -65,7 +65,7 @@ router.get('/:imdbid', async (req, res) => {
 });
 
 // Actualiza la calificación promedio de una película
-router.put('/:imdbid/rating', async (req, res) => {
+/*router.put('/:imdbid/rating', async (req, res) => {
   try {
     const imdbid = req.params.imdbid;
     const movie = await Movie.findOne({ imdbid: imdbid });
@@ -86,6 +86,6 @@ router.put('/:imdbid/rating', async (req, res) => {
     console.error(error);
     res.status(500).json({ error: 'Error interno del servidor' });
   }
-});
+});*/
 
 module.exports = router;
