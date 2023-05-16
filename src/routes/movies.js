@@ -43,7 +43,7 @@ router.get('/:imdbid', async (req, res) => {
     }
 
     // Obtiene todas las reseñas de la película
-    const reviews = await Review.aggregate([
+    /*const reviews = await Review.aggregate([
       { $match: { movie: movie._id } },
       { $group: { _id: '$movie', avgRating: { $avg: '$rating' } } }
     ]);
@@ -52,7 +52,7 @@ router.get('/:imdbid', async (req, res) => {
     if (reviews.length > 0) {
       movie.rating = reviews[0].avgRating;
       await movie.save();
-    }
+    }*/
 
     res.json(movie);
   } catch (error) {
