@@ -45,7 +45,7 @@ connection.once('open', async () => {
 
  await cursor.eachAsync(async function(doc) {
     doc.uniqueIds.shift();
-    await Movie.remove({_id: {$in: doc.uniqueIds}});
+    await Movie.deleteMany({_id: {$in: doc.uniqueIds}});
  });
   //mongoose.connection.close();
 
